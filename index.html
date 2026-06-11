@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Pintar - Info Penyakit Tanaman & Produk Affiliate Pertanian</title>
+    <meta name="description" content="Pusat informasi penyakit tanaman cabai, padi, jagung, timun, kacang panjang. Solusi pengendalian agronomi akurat dan rekomendasi produk pertanian terbaik.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container navbar">
+            <div class="logo" onclick="app.navigate('beranda')">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Agri<span class="logo-highlight">Pintar</span></span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Buka Menu">☰</button>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active" data-target="beranda">Beranda</a>
+                <a href="#" class="nav-link" data-target="penyakit">Penyakit Tanaman</a>
+                <a href="#" class="nav-link" data-target="artikel">Artikel Pertanian</a>
+                <a href="#" class="nav-link" data-target="affiliate">Produk Affiliate</a>
+                <a href="#" class="nav-link" data-target="tentang">Tentang Kami</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app-view-container">
+        </main>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <h3>Agri Pintar</h3>
+                <p>Platform edukasi agronomi modern terpercaya untuk mendiagnosis penyakit tanaman dan menyediakan solusi saprotan terbaik bagi petani Indonesia.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="#" onclick="app.navigate('penyakit')">Penyakit</a></li>
+                    <li><a href="#" onclick="app.navigate('artikel')">Artikel Edukasi</a></li>
+                    <li><a href="#" onclick="app.navigate('affiliate')">Produk Rekomendasi</a></li>
+                </ul>
+            </div>
+            <div class="footer-legal">
+                <h4>Legalitas</h4>
+                <ul>
+                    <li><a href="#" onclick="alert('Kebijakan Privasi: Data Anda aman bersama kami. Kami tidak mengumpulkan data pribadi tanpa izin.')">Kebijakan Privasi</a></li>
+                    <li><a href="#" onclick="alert('Disclaimer Affiliate: Website ini mengandung tautan afiliasi. Kami mendapatkan komisi kecil jika Anda membeli produk melalui tautan kami tanpa biaya tambahan bagi Anda.')">Disclaimer Affiliate</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Agri Pintar. Dikembangkan dengan dedikasi untuk Ketahanan Pangan Indonesia.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
