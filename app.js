@@ -1,7 +1,7 @@
 /**
  * Agri Pintar Engine - 100% Client Side Application Architecture
  * @author Senior Full Stack & Agronomist Developer
- * @version 1.0.0 (2026)
+ * @version 1.0.1 (Optimized Fallback & Router)
  */
 
 class AgriPintarApp {
@@ -10,7 +10,6 @@ class AgriPintarApp {
         this.currentView = 'beranda';
         this.placeholderImg = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23e2e8f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="%2394a3b8">Gambar Gejala Belum Tersedia</text></svg>';
         
-        // Inisialisasi Event Listener Inti
         document.addEventListener('DOMContentLoaded', () => this.init());
     }
 
@@ -18,36 +17,35 @@ class AgriPintarApp {
         this.domContainer = document.getElementById('app-view-container');
         this.setupNavigation();
         await this.loadDatabases();
-        this.navigate('beranda'); // Render halaman utama saat inisialisasi selesai
+        this.navigate('beranda'); 
     }
 
-    /**
-     * Mengambil file JSON secara asinkron dari folder data/
-     */
     async loadDatabases() {
         try {
-            // Simulasi load data statis (bisa diganti URL Vercel/Netlify lokal)
-            const resPenyakit = await fetch('./data/penyakit.json').then(r => r.json()).catch(() => this.getFallbackPenyakit());
-            const resArtikel = await fetch('./data/artikel.json').then(r => r.json()).catch(() => this.getFallbackArtikel());
-            const resProduk = await fetch('./data/produk.json').then(r => r.json()).catch(() => this.getFallbackProduk());
+            // Mencoba mengambil data dari JSON luar
+            const resPenyakit = await fetch('./data/penyakit.json').then(r => r.json());
+            const resArtikel = await fetch('./data/artikel.json').then(r => r.json());
+            const resProduk = await fetch('./data/produk.json').then(r => r.json());
 
             this.database.penyakit = resPenyakit;
             this.database.artikel = resArtikel;
             this.database.produk = resProduk;
         } catch (error) {
-            console.error('Gagal memuat database Agri Pintar:', error);
+            console.warn('Mengaktifkan pemicu cadangan: Memuat data internal Agri Pintar...');
+            // JIKA FILE JSON GAGAL DIREBUT, KODE DI BAWAH INI AKAN MENYELAMATKAN WEBSITE
+            this.database.penyakit = this.getFallbackPenyakit();
+            this.database.artikel = this.getFallbackArtikel();
+            this.database.produk = this.getFallbackProduk();
         }
     }
 
     setupNavigation() {
-        // Toggle mobile menu
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
         if (menuToggle) {
             menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
         }
 
-        // Click Handler pada link navigasi global
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -55,7 +53,7 @@ class AgriPintarApp {
                 
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
-                navMenu.classList.remove('active'); // Sembunyikan menu di mobile setelah klik
+                if(navMenu) navMenu.classList.remove('active');
                 
                 this.navigate(targetView);
             });
@@ -90,9 +88,6 @@ class AgriPintarApp {
         }
     }
 
-    /**
-     * Resolusi URL Affiliate Terpusat (Satu Pintu)
-     */
     getAffiliateLink(productItem) {
         if (productItem.link_override && productItem.link_override !== "") {
             return productItem.link_override;
@@ -100,10 +95,6 @@ class AgriPintarApp {
         const config = this.database.produk.global_config || { base_affiliate_url: '#' };
         return `${config.base_affiliate_url}/search?keyword=${encodeURIComponent(productItem.slug_toko || productItem.nama)}`;
     }
-
-    /* ==========================================================================
-       VIEW RENDER ENGINE (UI GENERATORS)
-       ========================================================================== */
 
     renderBeranda() {
         const totalPenyakit = this.database.penyakit.length;
@@ -153,13 +144,13 @@ class AgriPintarApp {
 
         this.domContainer.innerHTML = html;
 
-        // Render Sub-Komponen
         this.renderPenyakitListGrid(this.database.penyakit.slice(0, 3), 'featured-penyakit');
         this.renderProductListGrid(this.database.produk.items ? this.database.produk.items.slice(0, 3) : [], 'featured-products');
 
-        // Setup Listener Pencarian Pintar Real-time
         const searchInput = document.getElementById('mainSearchInput');
-        searchInput.addEventListener('input', (e) => this.executeSmartSearch(e.target.value));
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => this.executeSmartSearch(e.target.value));
+        }
     }
 
     renderPenyakit(filterTanaman = null) {
@@ -185,15 +176,17 @@ class AgriPintarApp {
 
     renderPenyakitListGrid(data, containerId) {
         const container = document.getElementById(containerId);
-        if (!container || data.length === 0) {
-            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">Data tidak ditemukan atau belum tersedia.</p>`;
+        if (!container) return;
+        
+        if (data.length === 0) {
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">Data tidak ditemukan. Silakan ketik kata kunci lain.</p>`;
             return;
         }
 
         container.innerHTML = data.map(item => `
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img class="card-img" src="${item.gambar.daun || item.gambar.buah || this.placeholderImg}" alt="${item.nama}" loading="lazy">
+                    <img class="card-img" src="${item.gambar.daun || item.gambar.buah || this.placeholderImg}" alt="${item.nama}" onerror="this.src='${this.placeholderImg}'">
                 </div>
                 <div class="card-content">
                     <span class="badge badge-${item.tingkat_bahaya.toLowerCase()}">Bahaya: ${item.tingkat_bahaya}</span>
@@ -254,10 +247,10 @@ class AgriPintarApp {
                         <div class="detail-block">
                             <h3>📸 Galeri Diagnosis</h3>
                             <div class="gallery-grid">
-                                <div class="gallery-item"><img src="${item.gambar.daun || this.placeholderImg}" alt="Gejala Daun"></div>
-                                <div class="gallery-item"><img src="${item.gambar.batang || this.placeholderImg}" alt="Gejala Batang"></div>
-                                <div class="gallery-item"><img src="${item.gambar.buah || this.placeholderImg}" alt="Gejala Buah"></div>
-                                <div class="gallery-item"><img src="${item.gambar.akar || this.placeholderImg}" alt="Gejala Akar"></div>
+                                <div class="gallery-item"><img src="${item.gambar.daun || this.placeholderImg}" onerror="this.src='${this.placeholderImg}'" alt="Gejala Daun"></div>
+                                <div class="gallery-item"><img src="${item.gambar.batang || this.placeholderImg}" onerror="this.src='${this.placeholderImg}'" alt="Gejala Batang"></div>
+                                <div class="gallery-item"><img src="${item.gambar.buah || this.placeholderImg}" onerror="this.src='${this.placeholderImg}'" alt="Gejala Buah"></div>
+                                <div class="gallery-item"><img src="${item.gambar.akar || this.placeholderImg}" onerror="this.src='${this.placeholderImg}'" alt="Gejala Akar"></div>
                             </div>
                         </div>
 
@@ -286,7 +279,7 @@ class AgriPintarApp {
                             <h3 style="font-size: 1.15rem; margin-bottom: 10px; line-height: 1.4;">${art.judul}</h3>
                             <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 12px;">Fokus Komoditas: <strong>${art.tag_tanaman}</strong> | Waktu Baca: ${art.read_time}</p>
                             <p style="font-size: 0.9rem; color:#475569; margin-bottom: 15px;">${art.ringkasan}</p>
-                            <a href="#" class="btn" style="background: none; color: var(--color-primary); border: 1px solid var(--color-primary); padding: 8px;" onclick="alert('Membuka Artikel Lengkap: ${art.judul}. (Implementasi halaman artikel mandiri siap diintegrasikan via slug: ${art.slug})')">Baca Artikel</a>
+                            <button class="btn" style="background: none; color: var(--color-primary); border: 1px solid var(--color-primary); padding: 8px;" onclick="alert('Membuka Artikel Lengkap: ${art.judul}')">Baca Artikel</button>
                         </div>
                     `).join('')}
                 </div>
@@ -315,7 +308,7 @@ class AgriPintarApp {
         container.innerHTML = data.map(item => `
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img class="card-img" src="${item.gambar || this.placeholderImg}" alt="${item.nama}">
+                    <img class="card-img" src="${item.gambar || this.placeholderImg}" onerror="this.src='${this.placeholderImg}'" alt="${item.nama}">
                 </div>
                 <div class="card-content">
                     <span class="badge" style="background:#fef3c7; color:#d97706;">${item.kategori}</span>
@@ -336,30 +329,26 @@ class AgriPintarApp {
             <div class="container" style="padding: 50px 20px; max-width: 800px;">
                 <div class="detail-block">
                     <h2>Tentang Platform Agri Pintar</h2>
-                    <p style="margin-top: 15px;">Agri Pintar adalah platform digital inovasi agronomi terintegrasi yang bertujuan menjembatani jurang pengetahuan teknologi pertanian bagi petani di pedesaan Indonesia. Kami menyediakan sistem pakar penentu diagnosis penyakit tanaman pangan dan hortikultura secara instan berbasis web.</p>
+                    <p style="margin-top: 15px;">Agri Pintar adalah platform digital inovasi agronomi terintegrasi yang bertujuan menjembatani jurang pengetahuan teknologi pertanian bagi petani di pedesaan Indonesia.</p>
                     <p style="margin-top: 10px;">Seluruh rekomendasi bahan aktif fungisida, pestisida, maupun tata kelola penanganan biologis didasarkan pada jurnal penelitian serta pustaka rujukan resmi Kementerian Pertanian Republik Indonesia.</p>
                 </div>
             </div>
         `;
     }
 
-    /* ==========================================================================
-       ALGORTIMA PENCARIAN PINTAR SEMANTIK (REAL-TIME FILTERING)
-       ========================================================================== */
     executeSmartSearch(query) {
         const gridContainer = document.getElementById('featured-penyakit');
         const sectionTitle = document.querySelector('#featured-penyakit').previousElementSibling;
         
         if (!query || query.trim() === "") {
-            sectionTitle.innerHTML = "<h2>Penyakit yang Sering Menyerang</h2>";
+            if(sectionTitle) sectionTitle.innerHTML = "<h2>Penyakit yang Sering Menyerang</h2>";
             this.renderPenyakitListGrid(this.database.penyakit.slice(0, 3), 'featured-penyakit');
             return;
         }
 
         const cleanQuery = query.toLowerCase().trim();
-        sectionTitle.innerHTML = `<h2>Hasil Pencarian Pintar Untuk: "${query}"</h2>`;
+        if(sectionTitle) sectionTitle.innerHTML = `<h2>Hasil Pencarian Pintar Untuk: "${query}"</h2>`;
 
-        // Aturan Scoring / Filter Berdasarkan Tokenisasi Kata Kunci Gejala & Taksonomi
         const filteredResults = this.database.penyakit.filter(item => {
             return item.nama.toLowerCase().includes(cleanQuery) ||
                    item.tanaman.toLowerCase().includes(cleanQuery) ||
@@ -367,3 +356,21 @@ class AgriPintarApp {
                    item.gejala_awal.toLowerCase().includes(cleanQuery) ||
                    item.gejala_sedang.toLowerCase().includes(cleanQuery) ||
                    item.gejala_parah.toLowerCase().includes(cleanQuery) ||
+                   item.ringkasan.toLowerCase().includes(cleanQuery);
+        });
+
+        this.renderPenyakitListGrid(filteredResults, 'featured-penyakit');
+    }
+
+    /* DATA MANAGEMENT SECURE FALLBACK */
+    getFallbackPenyakit() {
+        return [
+          {
+            "id": "pny-cbi-001",
+            "nama": "Antraknosa (Patek)",
+            "patogen": "Jamur/Fungi",
+            "nama_ilmiah": "Colletotrichum capsici",
+            "tanaman": "Cabai",
+            "tingkat_bahaya": "Tinggi",
+            "gejala_awal": "Bercak kecil melingkar agak cekung berwarna cokelat tua pada buah.",
+            "gejala_sedang":
