@@ -1,0 +1,53 @@
+{
+  "global_config": {
+    "platform_affiliate": "Shopee / Tokopedia Affiliate",
+    "base_affiliate_url": "https://shope.ee/agripintar-store"
+  },
+  "items": [
+    {
+      "id": "prod-001",
+      "nama": "Fungisida Amistartop 325 SC",
+      "kategori": "Fungisida",
+      "gambar": "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=400&auto=format&fit=crop&q=60",
+      "deskripsi": "Fungisida sistemik spektrum luas dengan zat pengatur tumbuh (ZPT) untuk mengendalikan patek cabai dan blas padi.",
+      "manfaat": [
+        "Menghentikan perkembangan spora jamur seketika",
+        "Membuat daun tanaman lebih hijau dan subur (efek ZPT)",
+        "Meningkatkan bobot hasil panen buah/gabah"
+      ],
+      "harga": "Rp 145.000",
+      "slug_toko": "amistartop-325sc-original",
+      "link_override": ""
+    },
+    {
+      "id": "prod-002",
+      "nama": "Agens Hayati Trichoderma Harzianum Powder",
+      "kategori": "Pestisida",
+      "gambar": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400&auto=format&fit=crop&q=60",
+      "deskripsi": "Jamur antagonis alami pengendali patogen tular tanah penyebab layu fusarium dan busuk akar.",
+      "manfaat": [
+        "Melindungi perakaran tanaman secara alami",
+        "Memperbaiki struktur mikroba tanah",
+        "Aman untuk lingkungan dan tanaman berkelanjutan"
+      ],
+      "harga": "Rp 35.000",
+      "slug_toko": "trichoderma-hayati-super",
+      "link_override": ""
+    },
+    {
+      "id": "prod-003",
+      "nama": "Bakterisida Copcide 77 WP",
+      "kategori": "Pestisida",
+      "gambar": "https://images.unsplash.com/photo-1595341595378-fcab32759e66?w=400&auto=format&fit=crop&q=60",
+      "deskripsi": "Bakterisida/Fungisida kontak berbahan aktif Tembaga Hidroksida untuk mengatasi hawar daun bakteri.",
+      "manfaat": [
+        "Sangat efektif membasmi koloni bakteri Xanthomonas",
+        "Membentuk lapisan proteksi kuat pada permukaan daun",
+        "Dosis penggunaan hemat dan ekonomis"
+      ],
+      "harga": "Rp 68.000",
+      "slug_toko": "copcide-77wp-anti-bakteri",
+      "link_override": ""
+    }
+  ]
+}
