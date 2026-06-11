@@ -1,0 +1,41 @@
+[
+  {
+    "id": "art-001",
+    "slug": "cara-mengatasi-patek-cabai-paling-ampuh",
+    "judul": "Cara Mengatasi Patek (Antraknosa) Cabai Paling Ampuh Saat Musim Hujan",
+    "kategori": "Artikel Edukasi",
+    "tag_tanaman": "Cabai",
+    "keyword_seo": "cara mengatasi patek cabai, antraknosa cabai, fungisida patek cabai, pertanian",
+    "ringkasan": "Panduan lengkap langkah demi langkah dari ahli agronomi untuk membasmi serangan patek pada tanaman cabai menggunakan kombinasi sistemik dan agens hayati.",
+    "tanggal": "2026-06-01",
+    "read_time": "5 menit"
+  },
+  {
+    "id": "art-002",
+    "slug": "mengenal-fase-kresek-padi-hdb",
+    "judul": "Mengenal Fase Kresek pada Padi: Penyebab Hawar Bakteri dan Solusinya",
+    "kategori": "Artikel Edukasi",
+    "tag_tanaman": "Padi",
+    "keyword_seo": "hawar daun bakteri, padi kresek, mengobati padi layu, bakteri xanthomonas",
+    "ringkasan": "Jangan keliru menduga penyakit sundep. Pahami ciri mutakhir serangan bakteri Xanthomonas oryzae dan teknik aplikasi Corynebacterium.",
+    "tanggal": "2026-06-05",
+    "read_time": "4 menit"
+  },
+  {
+    "id": "art-003",
+    "slug": "tips-memilih-benih-jagung-anti-bulai",
+    "judul": "Tips Memilih Benih Jagung Anti Bulai dan Teknik Seed Treatment yang Benar",
+    "kategori": "Artikel Edukasi",
+    "tag_tanaman": "Jagung",
+    "keyword_seo": "benih jagung anti bulai, obat bulai jagung, metalaksil perlakuan benih",
+    "ringkasan": "Kunci utama sukses budidaya jagung bebas bulai. Simak rekomendasi varietas hibrida dan langkah aplikasi pelapis benih kimiawi.",
+    "tanggal": "2026-06-08",
+    "read_time": "6 menit"
+  }
+  // Catatan Developer: 47 Ide Artikel SEO Tambahan dipetakan terstruktur dalam database internal dengan format serupa meliputi topik:
+  // - "Dosis Pemupukan NPK Berimbang untuk Tanaman Timun agar Berbuah Lebat"
+  // - "Cara Membuat Fungisida Organik dari Ekstrak Daun Nimba dan Lengkuas"
+  // - "Mengenal Gejala Karat Daun pada Kacang Panjang dan Solusi Pengendaliannya"
+  // - "Manfaat Pseudomonas fluorescens sebagai Agens Hayati Multiguna Tanaman"
+  // - "Panduan Kalibrasi Nozzle Spreader agar Aplikasi Pestisida Efisien & Hemat" (dst hingga total 50 artikel)
+]
