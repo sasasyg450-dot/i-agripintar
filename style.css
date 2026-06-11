@@ -1,0 +1,375 @@
+/* ==========================================================================
+   SYSTEM DESIGN TOKENS & RESET
+   ========================================================================== */
+:root {
+    --color-primary: #2e7d32;      /* Hijau Pertanian Subur */
+    --color-primary-light: #e8f5e9;/* Background Hijau Lembut */
+    --color-secondary: #fbc02d;    /* Kuning Panen/Aksen */
+    --color-text-dark: #1e293b;    /* Teks Utama Sangat Jelas */
+    --color-text-muted: #64748b;   /* Teks Keterangan */
+    --color-bg-light: #f8fafc;     /* Latar Belakang Bersih */
+    --color-white: #ffffff;
+    --font-main: 'Inter', sans-serif;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --transition-fast: all 0.2s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   NAVIGATION BAR & HEADER
+   ========================================================================== */
+.main-header {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.logo-highlight {
+    color: var(--color-text-dark);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-dark);
+}
+
+/* ==========================================================================
+   HOMEPAGE COMPONENTS (HERO, SEARCH, CARDS)
+   ========================================================================== */
+.hero-section {
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+    color: var(--color-white);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.search-box-container {
+    max-width: 650px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    box-shadow: var(--shadow-md);
+    outline: none;
+}
+
+/* Kategori Grid */
+.section-title {
+    font-size: 1.75rem;
+    margin: 40px 0 20px 0;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.crop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.crop-card {
+    background: var(--color-white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast);
+    border: 1px solid #e2e8f0;
+}
+
+.crop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.crop-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Komponen Kartu Penyakit / Produk */
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-wrapper {
+    width: 100%;
+    height: 180px;
+    background-color: #e2e8f0;
+    position: relative;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    width: max-content;
+}
+
+.badge-tinggi { background-color: #fee2e2; color: #991b1b; }
+.badge-sedang { background-color: #fef3c7; color: #92400e; }
+.badge-rendah { background-color: #dcfce7; color: #166534; }
+
+.btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: auto;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn:hover {
+    background-color: #1b5e20;
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+}
+
+.btn-secondary:hover {
+    background-color: #f9a825;
+}
+
+/* Detail Penyakit Layout */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.detail-block {
+    background: var(--color-white);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.gallery-item {
+    height: 120px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.main-footer {
+    background-color: var(--color-text-dark);
+    color: #94a3b8;
+    padding: 40px 0 20px 0;
+    margin-top: 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.footer-grid h3, .footer-grid h4 {
+    color: var(--color-white);
+    margin-bottom: 16px;
+}
+
+.footer-grid ul {
+    list-style: none;
+}
+
+.footer-grid ul li {
+    margin-bottom: 10px;
+}
+
+.footer-grid ul li a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.footer-grid ul li a:hover {
+    color: var(--color-white);
+}
+
+.footer-bottom {
+    border-top: 1px solid #334155;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--color-white);
+        padding: 20px;
+        box-shadow: var(--shadow-md);
+    }
+    .nav-menu.active {
+        display: flex;
+    }
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+}
